@@ -1,343 +1,582 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>My Valentine 💖</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-<style>
-*{box-sizing:border-box}
-body{
-  margin:0;
-  font-family:'Poppins',sans-serif;
-  background:linear-gradient(135deg,#ffd6ec,#ff9ecf);
-  color:white;
-  text-align:center;
-  overflow-x:hidden;
-}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Valentine · Material love 💘</title>
+  <!-- Material & modern fonts + icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz@14..32&family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0,1" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-/* Floating hearts & petals */
-.floating{
-  position:fixed;
-  font-size:18px;
-  animation:float 14s linear infinite;
-  opacity:.5;
-  z-index:0;
-}
-@keyframes float{
-  0%{transform:translateY(100vh) rotate(0deg)}
-  100%{transform:translateY(-10vh) rotate(360deg);opacity:0}
-}
+    body {
+      font-family: 'Inter', 'Quicksand', sans-serif;
+      background: linear-gradient(145deg, #ffe9f0 0%, #ffb8d2 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.4s ease;
+      color: #2e1b3c;
+      overflow-x: hidden;
+      position: relative;
+    }
 
-/* Modal prompt */
-.modal{
-  position:fixed;
-  inset:0;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  backdrop-filter:blur(8px);
-  background:rgba(255,182,193,.3);
-  z-index:10;
-}
-.modal-box{
-  background:#fff0f6;
-  padding:40px;
-  border-radius:25px;
-  width:90%;
-  max-width:420px;
-  color:#d63384;
-  box-shadow:0 10px 40px rgba(0,0,0,.2);
-  position:relative;
-}
+    /* floating symbols – gentle material design tokens */
+    .float-symbol {
+      position: fixed;
+      font-size: 24px;
+      user-select: none;
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0.5;
+      animation: levitate 12s linear infinite;
+    }
+    @keyframes levitate {
+      0% { transform: translateY(100vh) rotate(0deg); opacity: 0.3; }
+      70% { opacity: 0.6; }
+      100% { transform: translateY(-20vh) rotate(320deg); opacity: 0; }
+    }
 
-/* Buttons */
-button{
-  background:#ff69b4;
-  border:none;
-  padding:12px 22px;
-  margin:10px;
-  border-radius:30px;
-  color:white;
-  cursor:pointer;
-  transition:.3s;
-}
-button:hover{background:#ff1493;transform:scale(1.08);}
-#noBtn{position:relative;transition:.2s}
+    /* Material card surfaces */
+    .card {
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-radius: 32px;
+      box-shadow: 0 20px 40px -8px rgba(236, 72, 153, 0.25), 0 8px 20px -6px rgba(219, 39, 119, 0.15), inset 0 0 0 1px rgba(255, 255, 255, 0.7);
+      padding: 32px 28px;
+      transition: all 0.25s ease;
+    }
 
-/* Menu boxes */
-.menu{
-  display:none;
-  padding:60px 20px;
-  flex-wrap:wrap;
-  justify-content:center;
-  gap:25px;
-}
-.box{
-  width:140px;
-  height:140px;
-  background:rgba(255,255,255,.25);
-  border-radius:25px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:45px;
-  cursor:pointer;
-  transition:.4s;
-}
-.box:hover{background:rgba(255,255,255,.45);transform:scale(1.1);}
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 240, 245, 0.6);
+      backdrop-filter: blur(10px);
+      z-index: 100;
+      padding: 1rem;
+    }
 
-/* Sections */
-.section{display:none;padding:60px 20px;max-width:900px;margin:auto;}
+    .modal-card {
+      max-width: 460px;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(20px);
+      border-radius: 40px;
+      box-shadow: 0 30px 60px rgba(219, 39, 119, 0.25);
+      border: 1px solid rgba(255,255,240,0.7);
+      padding: 36px 28px;
+      text-align: center;
+    }
 
-/* Gallery */
-.gallery{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-  gap:15px;
-}
-.gallery img{
-  width:100%;
-  height:230px;
-  object-fit:cover;
-  border-radius:15px;
-  transition:.3s;
-}
-.gallery img:hover{transform:scale(1.05);}
-.gallery div{position:relative;}
-.caption{position:absolute;bottom:5px;left:50%;transform:translateX(-50%);background:rgba(255,182,193,0.7);padding:4px 8px;border-radius:8px;font-size:12px;}
+    h1, h2, h3 {
+      font-weight: 600;
+      font-family: 'Quicksand', sans-serif;
+      color: #a61e4d;
+      letter-spacing: -0.01em;
+    }
 
-/* Love hearts */
-.love-heart{font-size:28px;margin:8px;cursor:pointer;transition:.3s;}
-.love-heart:hover{transform:scale(1.3);}
+    .btn {
+      background: #ec4899;
+      border: none;
+      color: white;
+      font-weight: 600;
+      padding: 14px 32px;
+      border-radius: 60px;
+      font-size: 1.1rem;
+      box-shadow: 0 12px 18px -10px #ec489980, 0 4px 12px 0 #f9a8d4 inset;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.2, 0, 0, 1);
+      border: 1px solid rgba(255,255,255,0.5);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
 
-/* Avatar */
-.avatar{font-size:90px;margin-top:30px;position:relative;}
-.avatar-flower{font-size:50px;position:absolute;left:50%;transform:translateX(-50%);bottom:10px;}
+    .btn-outline {
+      background: rgba(255,255,255,0.6);
+      backdrop-filter: blur(6px);
+      color: #a61e4d;
+      box-shadow: none;
+      border: 1px solid #f9a8d4;
+    }
 
-/* Typing letter */
-#typedLetter{max-width:600px;margin:auto;line-height:1.6;min-height:150px;}
+    .btn-outline:hover {
+      background: white;
+      border-color: #ec4899;
+    }
 
-/* Music toggle */
-.music-toggle{position:fixed;top:15px;right:15px;background:rgba(255,255,255,.3);padding:8px 14px;border-radius:30px;cursor:pointer;}
+    .btn:hover {
+      background: #db2777;
+      transform: scale(1.04) translateY(-2px);
+      box-shadow: 0 22px 28px -12px #be185d;
+    }
 
-/* Sparkle cursor */
-.sparkle{position:fixed;pointer-events:none;font-size:12px;animation:sparkleFade .8s forwards;}
-@keyframes sparkleFade{to{opacity:0;transform:translateY(-10px);}}
+    /* menu chips (material you) */
+    .menu-grid {
+      display: none;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 24px;
+      margin-top: 30px;
+      z-index: 5;
+      position: relative;
+    }
 
-/* Countdown */
-#countdown{font-size:18px;margin:10px 0;font-weight:600;}
+    .menu-chip {
+      width: 130px;
+      height: 130px;
+      border-radius: 48px;
+      background: rgba(255, 255, 255, 0.5);
+      backdrop-filter: blur(16px);
+      box-shadow: 0 8px 20px -6px rgba(236, 72, 153, 0.3), inset 0 2px 4px rgba(255,255,255,0.8);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+      transition: 0.2s;
+      cursor: pointer;
+      border: 1px solid rgba(255,255,255,0.7);
+      color: #9d174d;
+    }
 
-@media(max-width:500px){.box{width:110px;height:110px;font-size:35px;}}
-</style>
+    .menu-chip span {
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-top: 4px;
+      background: white;
+      padding: 4px 12px;
+      border-radius: 40px;
+      color: #a61e4d;
+      opacity: 0.9;
+    }
+
+    .menu-chip:hover {
+      background: white;
+      transform: translateY(-8px) scale(1.05);
+      border-color: #f472b6;
+    }
+
+    /* section containers */
+    .section {
+      display: none;
+      max-width: 800px;
+      width: 100%;
+      margin: 20px auto;
+    }
+
+    .material-gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 24px;
+      margin: 32px 0;
+    }
+
+    .gallery-item {
+      background: rgba(255,250,240,0.5);
+      backdrop-filter: blur(4px);
+      border-radius: 36px;
+      padding: 12px 12px 24px;
+      box-shadow: 0 10px 20px -12px rgba(0,0,0,0.1);
+      border: 1px solid rgba(255,220,240,0.7);
+      transition: 0.2s;
+    }
+
+    .gallery-item img {
+      width: 100%;
+      aspect-ratio: 1/1;
+      object-fit: cover;
+      border-radius: 24px;
+      background: #fce4ec;
+      box-shadow: inset 0 0 8px #fbcfe8;
+    }
+
+    .gallery-caption {
+      margin-top: 10px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      background: white;
+      display: inline-block;
+      padding: 4px 18px;
+      border-radius: 40px;
+    }
+
+    /* avatar container */
+    .avatar-panel {
+      background: rgba(255,230,242,0.6);
+      backdrop-filter: blur(4px);
+      border-radius: 120px;
+      padding: 24px 32px;
+      display: inline-flex;
+      align-items: center;
+      gap: 28px;
+      margin: 20px 0;
+      border: 1px solid white;
+    }
+
+    .avatar-figure {
+      font-size: 6rem;
+      line-height: 1;
+      filter: drop-shadow(0 8px 10px #f9a8d4);
+    }
+
+    .flower-badge {
+      background: #ffd6e9;
+      border-radius: 60px;
+      padding: 8px 24px;
+      font-size: 2.5rem;
+    }
+
+    .love-heart-badge {
+      font-size: 2rem;
+      margin: 0 8px;
+      cursor: pointer;
+      transition: 0.15s;
+      filter: drop-shadow(0 4px 4px #fbcfe8);
+    }
+
+    .love-heart-badge:hover {
+      transform: scale(1.2) rotate(4deg);
+    }
+
+    /* typing letter */
+    .letter-paper {
+      background: rgba(255, 248, 245, 0.8);
+      backdrop-filter: blur(6px);
+      border-radius: 36px;
+      padding: 32px 28px;
+      font-size: 1.25rem;
+      font-weight: 400;
+      line-height: 1.7;
+      color: #4a2c3b;
+      border: 1px solid rgba(255,215,235,0.9);
+      box-shadow: 0 24px 32px -20px #f687b3;
+      white-space: pre-line;
+      text-align: left;
+      font-family: 'Quicksand', cursive;
+    }
+
+    .countdown-chip {
+      background: white;
+      border-radius: 60px;
+      padding: 10px 24px;
+      display: inline-block;
+      margin: 20px auto;
+      font-weight: 700;
+      box-shadow: 0 4px 10px #fbcfe8;
+    }
+
+    .music-fab {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #ffffffcc;
+      backdrop-filter: blur(12px);
+      border-radius: 60px;
+      padding: 14px 22px;
+      font-size: 1.2rem;
+      box-shadow: 0 15px 30px -12px #f472b6;
+      border: 1px solid rgba(255,255,255,0.8);
+      z-index: 99;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .music-fab:hover {
+      background: white;
+      transform: scale(1.06);
+    }
+
+    .back-btn {
+      margin-top: 30px;
+      background: rgba(255,255,255,0.6);
+    }
+
+    .sparkle {
+      position: fixed;
+      pointer-events: none;
+      font-size: 22px;
+      animation: sparkleFade 1s ease-out forwards;
+      z-index: 9999;
+    }
+    @keyframes sparkleFade {
+      0% { opacity: 1; transform: scale(0.8) translateY(0); }
+      100% { opacity: 0; transform: scale(1.8) translateY(-30px); }
+    }
+
+    #noBtn {
+      background: #fda4af;
+      box-shadow: none;
+      border: 1px solid white;
+    }
+
+    #noMessage {
+      font-size: 1rem;
+      margin-top: 12px;
+      color: #a61e4d;
+    }
+
+    input[type=text] {
+      background: white;
+      border: 1px solid #fbcfe8;
+      border-radius: 60px;
+      padding: 16px 24px;
+      font-size: 1.1rem;
+      width: 100%;
+      margin: 8px 0 16px;
+    }
+  </style>
 </head>
 <body>
 
-<div class="music-toggle" onclick="toggleMusic()">🎵 Music</div>
-<audio id="bgMusic" loop>
-  <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
-</audio>
+  <!-- floating bg (material symbols) -->
+  <div id="floating-container"></div>
 
-<!-- Prompt -->
-<div class="modal" id="prompt">
-  <div class="modal-box">
-    <h2>My Love 💕</h2>
-    <p id="namePrompt">You make my world softer and brighter every day...</p>
-    <h3>Will you be my Valentine? 💖</h3>
-    <button onclick="enterSite()">Yes 💘</button>
-    <button id="noBtn">No 😢</button>
-    <p id="noMessage"></p>
+  <!-- music FAB -->
+  <div class="music-fab" onclick="toggleMusic()">
+    <span class="material-symbols-outlined" style="vertical-align: middle;">music_note</span>  Love mix
   </div>
-</div>
+  <audio id="bgMusic" loop>
+    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" type="audio/mpeg">
+  </audio>
 
-<!-- Menu -->
-<div id="menu" class="menu">
-  <div class="box" onclick="showSection('flowers')">🌸</div>
-  <div class="box" onclick="showSection('portraits')">🖼️</div>
-  <div class="box" onclick="showSection('reasons')">❤️</div>
-  <div class="box" onclick="showSection('letter'); startTyping()">💌</div>
-</div>
-
-<!-- Countdown Timer -->
-<div id="countdown"></div>
-
-<!-- Flowers Section -->
-<div id="flowers" class="section">
-  <h2>Pick Your Flower 🌸</h2>
-  <button onclick="pickFlower('🌹','My love grows more beautiful every day.')">🌹</button>
-  <button onclick="pickFlower('🌻','You are my sunshine always.')">🌻</button>
-  <button onclick="pickFlower('🌷','Elegant and beautiful like you.')">🌷</button>
-
-  <p id="flowerMessage"></p>
-  <div class="avatar">
-    🧍
-    <div id="avatarFlower" class="avatar-flower"></div>
+  <!-- MODAL PROMPT (material design) -->
+  <div class="modal-overlay" id="promptModal">
+    <div class="modal-card">
+      <span class="material-symbols-outlined" style="font-size: 4rem; color:#ec4899;">favorite</span>
+      <h2 style="margin-top: 4px;">hello, beautiful</h2>
+      <p id="namePrompt" style="font-size: 1.4rem; font-weight: 600; margin: 8px 0;">🌸</p>
+      <h3>Will you be my Valentine?</h3>
+      <div style="display: flex; justify-content: center; gap: 16px; margin: 28px 0 12px;">
+        <button class="btn" onclick="enterSite()">Yes, always 💖</button>
+        <button class="btn" id="noBtn">No 😿</button>
+      </div>
+      <p id="noMessage" style="min-height: 30px;"></p>
+      <div style="font-size: 1rem; color: #db2777;">⋆｡°✩ material love ✩°｡⋆</div>
+    </div>
   </div>
-  <button onclick="back()">Back</button>
-</div>
 
-<!-- Portraits Section -->
-<div id="portraits" class="section">
-  <h2>Our Memories 🖼️</h2>
-  <div class="gallery">
-    <div><img src="https://i.imgur.com/abc123.jpg"><div class="caption">Beach day 🌊</div></div>
-    <div><img src="https://i.imgur.com/def456.jpg"><div class="caption">Birthday 🎂</div></div>
-    <div><img src="https://i.imgur.com/ghi789.jpg"><div class="caption">Our trip ✈️</div></div>
+  <!-- countdown (small) -->
+  <div style="position: fixed; top: 16px; left: 20px; z-index: 40;">
+    <span class="countdown-chip" id="countdown">❤️ days together</span>
   </div>
-  <button onclick="back()">Back</button>
-</div>
 
-<!-- Love Reasons -->
-<div id="reasons" class="section">
-  <h2>Reasons I Love You ❤️</h2>
-  <div>
-    <span class="love-heart" onclick="showReason('Your smile 😊')">❤️</span>
-    <span class="love-heart" onclick="showReason('Your kindness 💛')">❤️</span>
-    <span class="love-heart" onclick="showReason('How you care 🥰')">❤️</span>
+  <!-- main menu chips -->
+  <div id="menu" class="menu-grid">
+    <div class="menu-chip" onclick="showSection('flowers')"><span class="material-symbols-outlined" style="font-size:3rem;">local_florist</span><span>flower</span></div>
+    <div class="menu-chip" onclick="showSection('portraits')"><span class="material-symbols-outlined" style="font-size:3rem;">photo_album</span><span>memories</span></div>
+    <div class="menu-chip" onclick="showSection('reasons')"><span class="material-symbols-outlined" style="font-size:3rem;">favorite</span><span>reasons</span></div>
+    <div class="menu-chip" onclick="showSection('letter'); setTimeout(startTyping,150)"><span class="material-symbols-outlined" style="font-size:3rem;">mail</span><span>letter</span></div>
   </div>
-  <p id="reasonText"></p>
-  <button onclick="back()">Back</button>
-</div>
 
-<!-- Letter -->
-<div id="letter" class="section">
-  <h2>A Letter For You 💌</h2>
-  <div id="typedLetter"></div>
-  <button onclick="back()">Back</button>
-</div>
+  <!-- sections (material cards) -->
+  <!-- flowers -->
+  <div id="flowers" class="section">
+    <div class="card" style="padding: 32px;">
+      <h2 style="display: flex; gap:8px;"><span class="material-symbols-outlined">local_florist</span> pick a flower</h2>
+      <div style="display: flex; gap:12px; flex-wrap: wrap; justify-content:center; margin: 24px 0;">
+        <button class="btn-outline btn" onclick="pickFlower('🌹','My love grows more beautiful every day.')">🌹 red rose</button>
+        <button class="btn-outline btn" onclick="pickFlower('🌻','You are my sunshine.')">🌻 sunflower</button>
+        <button class="btn-outline btn" onclick="pickFlower('🌷','Elegant as you.')">🌷 tulip</button>
+      </div>
+      <p id="flowerMessage" style="font-size:1.3rem; background: #fff0f5; border-radius: 60px; padding: 12px;"></p>
+      <div class="avatar-panel">
+        <span class="avatar-figure">🧸</span>
+        <div class="flower-badge" id="avatarFlower">🌸</div>
+      </div>
+      <button class="btn-outline back-btn" onclick="back()"><span class="material-symbols-outlined">arrow_back</span> back</button>
+    </div>
+  </div>
 
-<script>
-/* Floating hearts & petals */
-function createFloating(){
-  const el=document.createElement("div");
-  el.className="floating";
-  el.innerHTML=Math.random()>.5?"💖":"🌸";
-  el.style.left=Math.random()*100+"vw";
-  el.style.fontSize=(Math.random()*20+14)+"px";
-  document.body.appendChild(el);
-  setTimeout(()=>el.remove(),14000);
-}
-setInterval(createFloating,500);
+  <!-- portraits gallery with placeholder pics (material placeholders) -->
+  <div id="portraits" class="section">
+    <div class="card">
+      <h2><span class="material-symbols-outlined">photo_camera</span> our memories</h2>
+      <div class="material-gallery">
+        <div class="gallery-item"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'%3E%3Ccircle cx='100' cy='100' r='90' fill='%23fbcfe8'/%3E%3Ctext x='50' y='120' font-size='40' fill='%23ec4899'%3E🌊%3C/text%3E%3C/svg%3E" alt="beach"><span class="gallery-caption">beach day</span></div>
+        <div class="gallery-item"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'%3E%3Crect width='200' height='200' fill='%23f9a8d4'/%3E%3Ctext x='40' y='120' font-size='45' fill='%23ffffff'%3E🎂%3C/text%3E%3C/svg%3E" alt="birthday"><span class="gallery-caption">birthday</span></div>
+        <div class="gallery-item"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'%3E%3Cpath fill='%23ffb6c1' d='M0 0h200v200H0z'/%3E%3Ctext x='35' y='120' font-size='50' fill='%23be185d'%3E✈️%3C/text%3E%3C/svg%3E" alt="trip"><span class="gallery-caption">our trip</span></div>
+      </div>
+      <button class="btn-outline back-btn" onclick="back()"><span class="material-symbols-outlined">arrow_back</span> back</button>
+    </div>
+  </div>
 
-/* Enter site & name prompt */
-let namePrompt = prompt("What's your name, my love? 💕");
-if(!namePrompt) namePrompt="My Valentine";
-document.getElementById("namePrompt").innerText=`Hello, ${namePrompt}! You make my world brighter...`;
+  <!-- reasons -->
+  <div id="reasons" class="section">
+    <div class="card">
+      <h2>❤️ reasons i love you</h2>
+      <div style="margin: 28px 0;">
+        <span class="love-heart-badge" onclick="showReason('your smile lights my day')">❤️ smile</span>
+        <span class="love-heart-badge" onclick="showReason('the kindness you carry')">🧡 kindness</span>
+        <span class="love-heart-badge" onclick="showReason('the way you care deeply')">💚 care</span>
+      </div>
+      <p id="reasonText" style="background: #fdf2f8; border-radius: 60px; padding: 14px 20px; font-size:1.2rem;">✨</p>
+      <button class="btn-outline back-btn" onclick="back()">back</button>
+    </div>
+  </div>
 
-function enterSite(){
-  document.getElementById("prompt").style.display="none";
-  document.getElementById("menu").style.display="flex";
-  confetti();
-}
+  <!-- letter section -->
+  <div id="letter" class="section">
+    <div class="card">
+      <h2><span class="material-symbols-outlined">draft</span> a letter for you</h2>
+      <div id="typedLetter" class="letter-paper"></div>
+      <button class="btn-outline back-btn" style="margin-top: 24px;" onclick="back()">back</button>
+    </div>
+  </div>
 
-/* Runaway shrinking No */
-let scale=1;
-const noBtn=document.getElementById("noBtn");
-noBtn.addEventListener("mouseover",moveNo);
-noBtn.addEventListener("touchstart",moveNo);
-function moveNo(){
-  scale-=0.1;
-  if(scale<0.4) scale=0.4;
-  noBtn.style.transform=`scale(${scale})`;
-  noBtn.style.position="absolute";
-  noBtn.style.left=Math.random()*200+"px";
-  noBtn.style.top=Math.random()*150+"px";
-  document.getElementById("noMessage").innerText="You can't escape loving me 😌💖";
-}
+  <script>
+    (function() {
+      // ---- FLOATING BACKGROUND (material style) -----
+      function createFloat() {
+        const container = document.getElementById('floating-container');
+        const el = document.createElement('div');
+        el.className = 'float-symbol';
+        const icons = ['💖', '🌸', '✨', '🍓', '🎵', '💘', '🌼', '🧁'];
+        el.innerText = icons[Math.floor(Math.random() * icons.length)];
+        el.style.left = Math.random() * 100 + '%';
+        el.style.fontSize = (Math.random() * 28 + 16) + 'px';
+        el.style.animationDuration = (Math.random() * 8 + 8) + 's';
+        el.style.opacity = 0.3 + Math.random() * 0.3;
+        container.appendChild(el);
+        setTimeout(() => el.remove(), 14000);
+      }
+      setInterval(createFloat, 400);
 
-/* Sections */
-function showSection(id){
-  document.getElementById("menu").style.display="none";
-  document.querySelectorAll(".section").forEach(s=>s.style.display="none");
-  document.getElementById(id).style.display="block";
-}
-function back(){
-  document.querySelectorAll(".section").forEach(s=>s.style.display="none");
-  document.getElementById("menu").style.display="flex";
-}
+      // ---- NAME PROMPT (material) ----
+      let valentineName = localStorage.getItem('valName');
+      if (!valentineName) {
+        valentineName = prompt("What's your name, my love? 💕") || "My love";
+        localStorage.setItem('valName', valentineName);
+      }
+      document.getElementById('namePrompt').innerHTML = `🌸 ${valentineName}, you make my world brighter`;
 
-/* Flower picker + background change */
-function pickFlower(f,msg){
-  document.getElementById("flowerMessage").innerText=msg;
-  document.getElementById("avatarFlower").innerText=f;
-  let color;
-  if(f=="🌹") color="linear-gradient(135deg,#ffb3c6,#ff4d6d)";
-  if(f=="🌻") color="linear-gradient(135deg,#fff3b3,#ffd11a)";
-  if(f=="🌷") color="linear-gradient(135deg,#ffdaeb,#ff80bf)";
-  document.body.style.background=color;
-}
+      // ---- MODAL ENTER ----
+      window.enterSite = function() {
+        document.getElementById('promptModal').style.display = 'none';
+        document.getElementById('menu').style.display = 'flex';
+        confettiBlast();
+      };
 
-/* Love reasons */
-function showReason(text){document.getElementById("reasonText").innerText=text;}
+      // ---- RUNAWAY NO (material fun) ----
+      const noBtn = document.getElementById('noBtn');
+      let scale = 1;
+      function moveNo() {
+        scale = Math.max(0.3, scale - 0.12);
+        noBtn.style.transform = `scale(${scale})`;
+        noBtn.style.position = 'relative';
+        noBtn.style.left = Math.random() * 70 + 'px';
+        noBtn.style.top = Math.random() * 30 + 'px';
+        document.getElementById('noMessage').innerText = "you can't escape this love 💕";
+      }
+      noBtn.addEventListener('mouseover', moveNo);
+      noBtn.addEventListener('touchstart', moveNo);
 
-/* Typing letter */
-const letterText=`My love,
+      // ---- SECTIONS ----
+      window.showSection = function(id) {
+        document.getElementById('menu').style.display = 'none';
+        document.querySelectorAll('.section').forEach(s => s.style.display = 'none');
+        document.getElementById(id).style.display = 'block';
+      };
+      window.back = function() {
+        document.querySelectorAll('.section').forEach(s => s.style.display = 'none');
+        document.getElementById('menu').style.display = 'flex';
+      };
 
-From the moment you came into my life,
-everything felt softer, warmer, brighter.
+      // ---- FLOWER + BG CHANGE ----
+      window.pickFlower = function(flower, msg) {
+        document.getElementById('flowerMessage').innerText = msg;
+        document.getElementById('avatarFlower').innerText = flower;
+        let gradient = '';
+        if (flower === '🌹') gradient = 'linear-gradient(145deg, #ffe2ec, #ff94b6)';
+        if (flower === '🌻') gradient = 'linear-gradient(145deg, #fff3cf, #ffc27a)';
+        if (flower === '🌷') gradient = 'linear-gradient(145deg, #fbe4f0, #fba6d4)';
+        document.body.style.background = gradient;
+      };
 
-You are my peace, my happiness,
-and the most beautiful part of my world.
+      // love reason
+      window.showReason = function(text) {
+        document.getElementById('reasonText').innerText = '❤️ ' + text;
+      };
 
-I choose you today and always.
+      // ---- TYPING LETTER ----
+      const letterContent = `My dearest,
 
-Happy Valentine's Day ❤️`;
-function startTyping(){
-  const el=document.getElementById("typedLetter");
-  el.innerHTML="";
-  let i=0;
-  function type(){
-    if(i<letterText.length){
-      el.innerHTML+=letterText.charAt(i);
-      i++;
-      setTimeout(type,35);
-    }
-  }
-  type();
-}
+every moment with you feels like a gentle melody.
+You’ve painted my world with kindness and soft light.
 
-/* Music */
-function toggleMusic(){
-  const m=document.getElementById("bgMusic");
-  if(m.paused)m.play();
-  else m.pause();
-}
+I cherish your laughter, your warmth, your soul.
+Today and always, I’m yours.
 
-/* Sparkle cursor */
-document.addEventListener("mousemove",e=>{
-  const s=document.createElement("div");
-  s.className="sparkle";
-  s.innerHTML="✨";
-  s.style.left=e.clientX+"px";
-  s.style.top=e.clientY+"px";
-  document.body.appendChild(s);
-  setTimeout(()=>s.remove(),800);
-});
+Happy Valentine’s Day 💌`;
 
-/* Countdown Timer */
-const relationshipStart=new Date("2024-05-01"); // Change to your start date
-function updateCountdown(){
-  const today=new Date();
-  const diff=Math.floor((today-relationshipStart)/(1000*60*60*24));
-  document.getElementById("countdown").innerText=`Days together: ${diff} ❤️`;
-}
-setInterval(updateCountdown,1000);
-updateCountdown();
+      window.startTyping = function() {
+        const el = document.getElementById('typedLetter');
+        el.innerHTML = '';
+        let i = 0;
+        function type() {
+          if (i < letterContent.length) {
+            el.innerHTML += letterContent.charAt(i);
+            i++;
+            setTimeout(type, 45);
+          }
+        }
+        type();
+      };
 
-/* Confetti on Yes */
-function confetti(){
-  for(let i=0;i<100;i++){
-    const c=document.createElement("div");
-    c.className="floating";
-    c.innerHTML=Math.random()>.5?"💖":"🌸";
-    c.style.left=Math.random()*100+"vw";
-    c.style.fontSize=(Math.random()*25+10)+"px";
-    c.style.transition="all 2s ease-out";
-    document.body.appendChild(c);
-    setTimeout(()=>c.remove(),3000);
-  }
-}
-</script>
+      // ---- MUSIC TOGGLE ----
+      window.toggleMusic = function() {
+        const m = document.getElementById('bgMusic');
+        if (m.paused) m.play();
+        else m.pause();
+      };
 
+      // ---- SPARKLE CURSOR ----
+      document.addEventListener('mousemove', function(e) {
+        if (Math.random() > 0.7) {
+          const spark = document.createElement('div');
+          spark.className = 'sparkle';
+          spark.innerHTML = '✨';
+          spark.style.left = e.clientX + 'px';
+          spark.style.top = e.clientY + 'px';
+          document.body.appendChild(spark);
+          setTimeout(() => spark.remove(), 900);
+        }
+      });
+
+      // ---- COUNTDOWN (relationship start) ----
+      const startDate = new Date('2024-08-15'); // pick a date
+      function updateCount() {
+        const today = new Date();
+        const diff = Math.floor((today - startDate) / (1000 * 60 * 60 * 24));
+        document.getElementById('countdown').innerHTML = `❤️ ${diff} days together`;
+      }
+      setInterval(updateCount, 60000);
+      updateCount();
+
+      // confetti
+      window.confettiBlast = function() {
+        for (let i=0;i<45;i++) {
+          const c = document.createElement('div');
+          c.className = 'float-symbol';
+          c.innerText = ['💖','🌸','✨','💘'][Math.floor(Math.random()*4)];
+          c.style.left = Math.random() * 100 + '%';
+          c.style.fontSize = (Math.random()*26+14)+'px';
+          c.style.animation = 'levitate 3s ease-out forwards';
+          document.getElementById('floating-container').appendChild(c);
+          setTimeout(() => c.remove(), 3000);
+        }
+      };
+    })();
+  </script>
 </body>
-</html>
+  </html>
