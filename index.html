@@ -4,9 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>587 days · our valentine 💘</title>
-  <!-- Font Awesome 6 (free) -->
+  <!-- Font Awesome 6 -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <!-- Google Font: Quicksand + Inter (light & airy) -->
+  <!-- Google Fonts: Quicksand + Inter -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz@14..32&family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     * {
@@ -17,19 +17,17 @@
 
     body {
       font-family: 'Inter', 'Quicksand', sans-serif;
-      /* light theme background – soft pink & cream */
       background: linear-gradient(145deg, #fff3f7, #ffe4f0);
       min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
       transition: background 0.4s ease;
-      color: #3a2a33;        /* soft dark for contrast */
+      color: #3a2a33;
       position: relative;
       overflow-x: hidden;
     }
 
-    /* floating hearts – lighter opacity */
     .floaty {
       position: fixed;
       font-size: 24px;
@@ -43,7 +41,6 @@
       100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
     }
 
-    /* main container */
     #mainApp {
       width: 100%;
       max-width: 960px;
@@ -53,7 +50,6 @@
       z-index: 20;
     }
 
-    /* main glass card – lighter, more transparent */
     .glass-splendid {
       background: rgba(255, 250, 250, 0.7);
       backdrop-filter: blur(14px);
@@ -64,7 +60,6 @@
       border: 1px solid rgba(255, 255, 255, 0.8);
     }
 
-    /* MODAL overlay (prompt) – light */
     .modal-overlay {
       position: fixed;
       inset: 0;
@@ -144,7 +139,6 @@
       color: #b34e7a;
     }
 
-    /* ===== MAIN MENU: ICONS ONLY ===== */
     .menu-grid {
       display: flex;
       flex-wrap: wrap;
@@ -176,7 +170,6 @@
       border-color: #fbc1d0;
     }
 
-    /* sections */
     .section {
       display: none;
       animation: fadePop 0.25s ease;
@@ -187,12 +180,13 @@
       100% { opacity: 1; transform: translateY(0); }
     }
 
-    /* ===== GALLERY - 2 ROWS, 3 COLUMNS ===== */
+    /* Gallery - exactly 4 images (2 rows of 2) */
     .gallery {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);  /* 3 per row */
+      grid-template-columns: repeat(2, 1fr);
       gap: 1.5rem;
       margin: 2.2rem 0;
+      justify-content: center;
     }
 
     .gallery-item {
@@ -202,7 +196,6 @@
       padding: 1rem 0.8rem 1.2rem;
       border: 1px solid rgba(255, 220, 235, 0.9);
       text-align: center;
-      transition: 0.15s;
     }
 
     .gallery-item img {
@@ -214,18 +207,7 @@
       box-shadow: 0 6px 12px -6px #e2a2bc;
     }
 
-    .caption {
-      background: white;
-      padding: 5px 14px;
-      border-radius: 40px;
-      display: inline-block;
-      margin-top: 10px;
-      font-weight: 500;
-      font-size: 0.9rem;
-      color: #832d54;
-    }
-
-    /* ===== BEAR AVATAR holding flower ===== */
+    /* no captions, just images */
     .avatar-zone {
       display: flex;
       align-items: center;
@@ -246,7 +228,6 @@
       display: inline-block;
     }
 
-    /* flower that bear holds — positioned in bear's hand */
     .bear-flower {
       font-size: 3.5rem;
       position: absolute;
@@ -268,7 +249,6 @@
       color: #832d54;
     }
 
-    /* reasons badge */
     .reason-chip {
       font-size: 2rem;
       background: rgba(255, 245, 250, 0.7);
@@ -287,7 +267,6 @@
       background: white;
     }
 
-    /* letter */
     .letter-box {
       background: rgba(255, 250, 245, 0.9);
       border-radius: 48px;
@@ -348,7 +327,6 @@
       margin: 1.8rem 0;
     }
 
-    /* flower selection row */
     .flower-row {
       display: flex;
       flex-wrap: wrap;
@@ -359,10 +337,8 @@
   </style>
 </head>
 <body>
-  <!-- floating background container -->
   <div id="floatContainer" style="position:fixed; inset:0; pointer-events:none;"></div>
 
-  <!-- MUSIC FAB (light) -->
   <div class="music-fab" onclick="toggleMusic()">
     <i class="fas fa-music"></i>  melody
   </div>
@@ -370,7 +346,6 @@
     <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3" type="audio/mpeg">
   </audio>
 
-  <!-- MODAL (prompt) -->
   <div class="modal-overlay" id="promptModal">
     <div class="modal-inner">
       <i class="fas fa-heart" style="font-size:4.5rem; color:#f2a0bd; margin-bottom:0.8rem;"></i>
@@ -385,13 +360,10 @@
     </div>
   </div>
 
-  <!-- MAIN APP -->
   <div id="mainApp">
     <div class="glass-splendid">
-      <!-- countdown pill - fixed 587 days -->
       <div class="countdown-tag" id="countdownDisplay">❤️ 587 days together</div>
 
-      <!-- MAIN MENU: ICONS ONLY -->
       <div id="menu" class="menu-grid">
         <div class="menu-item" onclick="showSection('flowers')"><i class="fas fa-seedling"></i></div>
         <div class="menu-item" onclick="showSection('portraits')"><i class="fas fa-images"></i></div>
@@ -399,7 +371,6 @@
         <div class="menu-item" onclick="showSection('letter'); startTyping()"><i class="fas fa-envelope"></i></div>
       </div>
 
-      <!-- FLOWERS section -->
       <div id="flowers" class="section">
         <h2><i class="fas fa-seedling"></i> give me a flower</h2>
         <div class="flower-row">
@@ -410,7 +381,6 @@
         </div>
         <p id="flowerMessage" style="background:white; border-radius:80px; padding:1rem; margin:1.5rem 0; text-align:center;"></p>
         
-        <!-- BEAR AVATAR holding flower -->
         <div class="avatar-zone">
           <span class="bear">
             🧸
@@ -421,23 +391,30 @@
         <button class="btn-outline back-btn" onclick="back()"><i class="fas fa-arrow-left"></i> back</button>
       </div>
 
-      <!-- PORTRAITS section – 2 rows of 3 = 6 images -->
+      <!-- PORTRAITS section with your 4 images, no captions, title "Your pics" -->
       <div id="portraits" class="section">
-        <h2><i class="fas fa-camera"></i> memories</h2>
+        <h2><i class="fas fa-camera"></i> Your pics</h2>
         <div class="gallery">
-          <!-- row 1 -->
-          <div class="gallery-item"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'%3E%3Crect width='200' height='200' fill='%23ffe2ed'/%3E%3Ctext x='40' y='130' font-size='70' fill='%23b34e7a'%3E🌊%3C/text%3E%3C/svg%3E"><div class="caption">beach</div></div>
-          <div class="gallery-item"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'%3E%3Ccircle cx='100' cy='100' r='90' fill='%23fbc1d0'/%3E%3Ctext x='45' y='135' font-size='80' fill='%23ffffff'%3E🎂%3C/text%3E%3C/svg%3E"><div class="caption">birthday</div></div>
-          <div class="gallery-item"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'%3E%3Cpath fill='%23ffe2ed' d='M0 0h200v200H0z'/%3E%3Ctext x='30' y='130' font-size='80' fill='%23b34e7a'%3E✈️%3C/text%3E%3C/svg%3E"><div class="caption">trip</div></div>
-          <!-- row 2 -->
-          <div class="gallery-item"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'%3E%3Crect width='200' height='200' fill='%23ffd6e6'/%3E%3Ctext x='30' y='130' font-size='70' fill='%23b34e7a'%3E🌲%3C/text%3E%3C/svg%3E"><div class="caption">forest</div></div>
-          <div class="gallery-item"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'%3E%3Ccircle cx='100' cy='100' r='90' fill='%23fec7db'/%3E%3Ctext x='40' y='135' font-size='70' fill='%23ffffff'%3E☕%3C/text%3E%3C/svg%3E"><div class="caption">coffee</div></div>
-          <div class="gallery-item"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'%3E%3Crect width='200' height='200' fill='%23ffe2ed'/%3E%3Ctext x='25' y='135' font-size='80' fill='%23b34e7a'%3E🎡%3C/text%3E%3C/svg%3E"><div class="caption">fair</div></div>
+          <!-- Image 1 -->
+          <div class="gallery-item">
+            <img src="https://scontent.fceb2-2.fna.fbcdn.net/v/t1.15752-9/628072419_1227512715580078_8018064559344659504_n.jpg?stp=dst-jpg_s960x960_tt6&_nc_cat=110&ccb=1-7&_nc_sid=9f807c&_nc_ohc=iqF1tCa5wxQQ7kNvwGZoXgd&_nc_oc=AdlJEGw883MJyeMT5lu4dFzOsb7u5ku2Mgzi76ZHAKcNLZy7KbOgMeE6fIbFeHp0e3Q&_nc_zt=23&_nc_ht=scontent.fceb2-2.fna&oh=03_Q7cD4gEDGXFllKaP2q4uLxHdCikbbOwwFdkHbLDp7FtRNpi_IQ&oe=69B76C9B" alt="Memory 1">
+          </div>
+          <!-- Image 2 -->
+          <div class="gallery-item">
+            <img src="https://scontent.fceb6-4.fna.fbcdn.net/v/t1.15752-9/620148850_881184751551300_4952382530538224599_n.jpg?stp=dst-jpg_s960x960_tt6&_nc_cat=109&ccb=1-7&_nc_sid=9f807c&_nc_ohc=G6rjLaYRg9AQ7kNvwGKmPDj&_nc_oc=AdmwLu60v5qy0hwIg0VhI2qr0EyaXX0wwaTIJ5NwlgUz3f_ih0EKmw-sP9gj6q5p5mA&_nc_zt=23&_nc_ht=scontent.fceb6-4.fna&oh=03_Q7cD4gFOfmJvCqTV_x_qel_rnKU-YfwFToL6WmxHFdcIpQeCNw&oe=69B77AB2" alt="Memory 2">
+          </div>
+          <!-- Image 3 -->
+          <div class="gallery-item">
+            <img src="https://scontent.fceb6-3.fna.fbcdn.net/v/t1.15752-9/623854042_1572675950487696_9162678047967704099_n.jpg?stp=dst-jpg_s960x960_tt6&_nc_cat=106&ccb=1-7&_nc_sid=9f807c&_nc_ohc=TRXP8uDl7PsQ7kNvwEDvzq8&_nc_oc=AdkvMcvcg2bhoYZ4p97d3ot8AXKpmYt-R1LgOmnmeRGl3u1GxEshSqcBjWLd8CXz7wg&_nc_zt=23&_nc_ht=scontent.fceb6-3.fna&oh=03_Q7cD4gHqiD0WsAbag5CSfY5CPSfmZsQIjw-TlAG2w0Z1Hphwng&oe=69B772D7" alt="Memory 3">
+          </div>
+          <!-- Image 4 -->
+          <div class="gallery-item">
+            <img src="https://scontent.fceb2-2.fna.fbcdn.net/v/t1.15752-9/622523640_1402563174104759_2584368855098681833_n.jpg?stp=dst-jpg_s960x960_tt6&_nc_cat=110&ccb=1-7&_nc_sid=9f807c&_nc_ohc=YO3SZ8YWppgQ7kNvwGdMpP-&_nc_oc=AdkTfRnWzO1XAQlTWU6MsSQLhQpURVYrY9o4nw30G3DLxv9BkgbSYCTg5fuOw5qVIKg&_nc_zt=23&_nc_ht=scontent.fceb2-2.fna&oh=03_Q7cD4gEKsHzzMknrJUYZhYARjM7muKRV8eGt26VVc-T9OZl_rQ&oe=69B755E4" alt="Memory 4">
+          </div>
         </div>
         <button class="btn-outline back-btn" onclick="back()"><i class="fas fa-arrow-left"></i> back</button>
       </div>
 
-      <!-- REASONS section -->
       <div id="reasons" class="section">
         <h2><i class="fas fa-heart"></i> why i love you</h2>
         <div>
@@ -449,7 +426,6 @@
         <button class="btn-outline back-btn" onclick="back()"><i class="fas fa-arrow-left"></i> back</button>
       </div>
 
-      <!-- LETTER section -->
       <div id="letter" class="section">
         <h2><i class="fas fa-envelope"></i> a letter</h2>
         <div id="typedLetter" class="letter-box"></div>
@@ -477,7 +453,6 @@
       }
       setInterval(createFloater, 500);
 
-      // name prompt
       let valName = localStorage.getItem('valName');
       if (!valName) {
         valName = prompt("What's your name, sweetheart?") || "beautiful";
@@ -491,7 +466,6 @@
         confettiBurst();
       };
 
-      // runaway NO button
       const noBtn = document.getElementById('noBtn');
       let scaleNo = 1;
       function moveNo() {
@@ -516,13 +490,11 @@
         document.getElementById('menu').style.display = 'flex';
       };
 
-      // flower picker: updates bear's held flower + message + background
       window.pickFlower = function(flower, msg) {
         document.getElementById('bearHeldFlower').innerText = flower;
         document.getElementById('avatarFlowerMsg').innerText = msg;
         document.getElementById('flowerMessage').innerText = msg;
         
-        // light theme backgrounds (soft)
         let bg = '';
         if (flower === '🌹') bg = 'linear-gradient(145deg, #ffe4f0, #ffd6e6)';
         else if (flower === '🌻') bg = 'linear-gradient(145deg, #fff8e7, #ffe4d6)';
@@ -565,7 +537,6 @@ Your Valentine 💘`;
         else m.pause();
       };
 
-      // sparkle cursor
       document.addEventListener('mousemove', (e) => {
         if (Math.random() > 0.78) {
           const sp = document.createElement('div');
@@ -578,7 +549,6 @@ Your Valentine 💘`;
         }
       });
 
-      // fixed countdown
       document.getElementById('countdownDisplay').innerHTML = '❤️ 587 days together';
 
       window.confettiBurst = function() {
@@ -594,7 +564,6 @@ Your Valentine 💘`;
         }
       };
 
-      // initial flower
       window.pickFlower('🌸', 'Cherry blossom – delicate and sweet.');
     })();
   </script>
