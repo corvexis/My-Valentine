@@ -541,7 +541,7 @@
     <div class="modal-inner">
       <i class="fas fa-heart" style="font-size:4.5rem; color:#f2a0bd; margin-bottom:0.8rem;"></i>
       <h2 style="color:#a53860;">hello, love</h2>
-      <p id="nameDisplay" style="font-size:2rem; background:#ffe4f0; border-radius:60px; padding:0.2rem 1rem; color:#a53860;">🌸</p>
+      <p style="font-size:2rem; background:#ffe4f0; border-radius:60px; padding:0.2rem 1rem; color:#a53860;">🌸</p>
       <h3 style="font-size:2rem; margin:1.5rem 0 0.5rem; color:#b34e7a;">Will you be my Valentine?</h3>
       <div>
         <button class="btn" onclick="enterSite()"><i class="fas fa-check"></i> Yes, always</button>
@@ -730,13 +730,7 @@
       }
       setInterval(createFloater, 500);
 
-      let valName = localStorage.getItem('valName');
-      if (!valName) {
-        valName = prompt("What's your name, sweetheart?") || "beautiful";
-        localStorage.setItem('valName', valName);
-      }
-      document.getElementById('nameDisplay').innerHTML = `🌸 ${valName}`;
-
+      // No name prompt - removed completely
       window.enterSite = function() {
         document.getElementById('promptModal').style.display = 'none';
         document.getElementById('mainApp').style.display = 'block';
@@ -823,14 +817,13 @@ Your Valentine 💘`;
         type();
       };
 
-      // EASTER EGG - shows a popup with secret message
+      // EASTER EGG - shows a popup with secret message (no name needed)
       window.easterEgg = function() {
         const countdown = document.getElementById('countdownDisplay');
         countdown.classList.add('easter-egg-active');
         
-        const name = valName || 'love';
         const messages = [
-          `💝 ${name}, these 587 days have been magic. Here's to forever! 💝`,
+          `💝 these 587 days have been magic. Here's to forever! 💝`,
           `✨ 587 days of loving you, and it only gets better. ✨`,
           `🌟 You're my favorite person, today and always. Happy 587! 🌟`,
           `💖 Every day with you is a gift. Thank you for 587 beautiful days. 💖`
