@@ -409,7 +409,7 @@
     }
 
     /* New sections styling */
-    .playlist-item, .dream-item, .bucket-item, .quiz-item {
+    .playlist-item, .dream-item {
       background: rgba(255, 255, 255, 0.7);
       border-radius: 40px;
       padding: 1.2rem 1.8rem;
@@ -420,7 +420,7 @@
       border: 1px solid white;
     }
 
-    .playlist-item i, .dream-item i, .bucket-item i {
+    .playlist-item i, .dream-item i {
       font-size: 2rem;
       color: #b34e7a;
     }
@@ -489,6 +489,16 @@
       cursor: pointer;
       margin-top: 1rem;
     }
+
+    /* Prize animation */
+    .prize-active {
+      animation: prizePop 0.8s ease infinite;
+    }
+    @keyframes prizePop {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); background: #d4f1f9; }
+      100% { transform: scale(1); }
+    }
   </style>
 </head>
 <body>
@@ -517,7 +527,7 @@
 
   <div id="mainApp">
     <div class="glass-splendid">
-      <!-- Clickable countdown for easter egg (now with better animation) -->
+      <!-- Clickable countdown for easter egg -->
       <div class="countdown-tag" id="countdownDisplay" onclick="easterEgg()">❤️ 587 days together</div>
 
       <div id="menu" class="menu-grid">
@@ -527,7 +537,6 @@
         <div class="menu-item" onclick="showSection('letter'); startTyping()"><i class="fas fa-envelope"></i></div>
         <div class="menu-item" onclick="showSection('playlist')"><i class="fas fa-music"></i></div>
         <div class="menu-item" onclick="showSection('dreams')"><i class="fas fa-moon"></i></div>
-        <div class="menu-item" onclick="showSection('bucket')"><i class="fas fa-list"></i></div>
         <div class="menu-item" onclick="showSection('quizzes')"><i class="fas fa-question"></i></div>
       </div>
 
@@ -597,7 +606,7 @@
         <button class="btn-outline back-btn" onclick="back()"><i class="fas fa-arrow-left"></i> back</button>
       </div>
 
-      <!-- NEW: PLAYLIST section -->
+      <!-- PLAYLIST section -->
       <div id="playlist" class="section">
         <h2><i class="fas fa-music"></i> our playlist</h2>
         <div class="playlist-item"><i class="fas fa-play"></i> "Perfect" - Ed Sheeran</div>
@@ -608,7 +617,7 @@
         <button class="btn-outline back-btn" onclick="back()"><i class="fas fa-arrow-left"></i> back</button>
       </div>
 
-      <!-- NEW: DREAMS section -->
+      <!-- DREAMS section -->
       <div id="dreams" class="section">
         <h2><i class="fas fa-moon"></i> dreams together</h2>
         <div class="dream-item"><i class="fas fa-house"></i> Our dream home by the sea</div>
@@ -619,18 +628,7 @@
         <button class="btn-outline back-btn" onclick="back()"><i class="fas fa-arrow-left"></i> back</button>
       </div>
 
-      <!-- NEW: BUCKET LIST section -->
-      <div id="bucket" class="section">
-        <h2><i class="fas fa-list"></i> our bucket list</h2>
-        <div class="bucket-item"><i class="fas fa-check-circle"></i> Watch sunset in Santorini</div>
-        <div class="bucket-item"><i class="fas fa-check-circle"></i> Learn to cook together</div>
-        <div class="bucket-item"><i class="fas fa-check-circle"></i> Go to a music festival</div>
-        <div class="bucket-item"><i class="fas fa-check-circle"></i> See the Northern Lights</div>
-        <div class="bucket-item"><i class="fas fa-check-circle"></i> Write love letters to each other</div>
-        <button class="btn-outline back-btn" onclick="back()"><i class="fas fa-arrow-left"></i> back</button>
-      </div>
-
-      <!-- NEW: QUIZZES section -->
+      <!-- QUIZZES section - with prize for correct answer (blue) -->
       <div id="quizzes" class="section">
         <h2><i class="fas fa-question"></i> how well do you know me?</h2>
         <p>What's my favorite color?</p>
@@ -638,6 +636,7 @@
         <button class="quiz-btn" onclick="checkQuiz('blue')">Blue</button>
         <button class="quiz-btn" onclick="checkQuiz('purple')">Purple</button>
         <div id="quizResult" class="quiz-result">💭 Click an answer...</div>
+        <div id="prizeMessage" style="text-align:center; font-size:1.2rem; margin-top:1rem;"></div>
         <button class="btn-outline back-btn" onclick="back()"><i class="fas fa-arrow-left"></i> back</button>
       </div>
 
@@ -768,13 +767,11 @@ Your Valentine 💘`;
         else m.pause();
       };
 
-      // BETTER EASTER EGG - shows a popup with secret message
+      // EASTER EGG - shows a popup with secret message
       window.easterEgg = function() {
-        // Add animation to countdown
         const countdown = document.getElementById('countdownDisplay');
         countdown.classList.add('easter-egg-active');
         
-        // Create special message based on name
         const name = valName || 'love';
         const messages = [
           `💝 ${name}, these 587 days have been magic. Here's to forever! 💝`,
@@ -784,11 +781,9 @@ Your Valentine 💘`;
         ];
         const randomMsg = messages[Math.floor(Math.random() * messages.length)];
         
-        // Show popup
         document.getElementById('easterMessage').innerText = randomMsg;
         document.getElementById('easterPopup').style.display = 'block';
         
-        // Extra confetti
         for (let i = 0; i < 60; i++) {
           const c = document.createElement('div');
           c.className = 'floaty';
@@ -801,7 +796,6 @@ Your Valentine 💘`;
           setTimeout(() => c.remove(), 3000);
         }
         
-        // Remove animation after 3 seconds
         setTimeout(() => {
           countdown.classList.remove('easter-egg-active');
         }, 3000);
@@ -811,13 +805,39 @@ Your Valentine 💘`;
         document.getElementById('easterPopup').style.display = 'none';
       };
 
-      // Quiz function
+      // QUIZ function with prize for correct answer (blue)
       window.checkQuiz = function(answer) {
         const result = document.getElementById('quizResult');
-        if (answer === 'pink') {
-          result.innerHTML = '💖 Correct! You know me so well! 💖';
+        const prizeDiv = document.getElementById('prizeMessage');
+        
+        if (answer === 'blue') {
+          result.innerHTML = '💙 Correct! You know me so well! 💙';
+          // Prize: confetti + animation + special message
+          prizeDiv.innerHTML = '🎁 YOU WIN A SPECIAL PRIZE! 🎁<br>💙 A lifetime of love and blue skies! 💙';
+          
+          // Add animation to result
+          result.classList.add('prize-active');
+          
+          // Extra confetti for prize
+          for (let i = 0; i < 30; i++) {
+            const c = document.createElement('div');
+            c.className = 'floaty';
+            c.innerText = ['💙','💎','💫','⭐'][Math.floor(Math.random()*4)];
+            c.style.left = Math.random() * 100 + '%';
+            c.style.fontSize = (Math.random() * 30 + 18) + 'px';
+            c.style.animation = 'levitate 3s ease-out forwards';
+            c.style.opacity = 0.9;
+            floatContainer.appendChild(c);
+            setTimeout(() => c.remove(), 3000);
+          }
+          
+          // Remove animation after 3 seconds
+          setTimeout(() => {
+            result.classList.remove('prize-active');
+          }, 3000);
         } else {
           result.innerHTML = '💔 Not quite... but I still love you! 💔';
+          prizeDiv.innerHTML = ''; // Clear prize message
         }
       };
 
