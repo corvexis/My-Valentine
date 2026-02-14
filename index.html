@@ -180,7 +180,7 @@
       100% { opacity: 1; transform: translateY(0); }
     }
 
-    /* ===== PORTRAIT PHOTO FRAMES (vertical orientation) ===== */
+    /* ===== PORTRAIT PHOTO FRAMES ===== */
     .gallery {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -198,14 +198,14 @@
       text-align: center;
       overflow: hidden;
       position: relative;
-      aspect-ratio: 3/4; /* Portrait orientation - taller than wide */
+      aspect-ratio: 3/4;
     }
 
     .gallery-item img {
       width: 100%;
       height: 100%;
-      object-fit: cover;  /* This ensures full image visible without cutoff */
-      object-position: center;  /* Center the image */
+      object-fit: cover;
+      object-position: center;
       display: block;
       border-radius: 36px;
       background: #ffe2ed;
@@ -316,10 +316,24 @@
       color: #b34777;
       cursor: pointer;
       transition: 0.2s;
+      position: relative;
+      overflow: hidden;
     }
     .countdown-tag:hover {
       transform: scale(1.05);
       background: #ffe4f0;
+    }
+
+    /* Easter egg special animation */
+    .countdown-tag.easter-egg-active {
+      animation: rainbow 1.5s infinite;
+    }
+    @keyframes rainbow {
+      0% { background: #ffb3ba; }
+      25% { background: #ffdfba; }
+      50% { background: #ffffba; }
+      75% { background: #baffc9; }
+      100% { background: #bae1ff; }
     }
 
     .music-fab {
@@ -358,7 +372,6 @@
       margin: 1.8rem 0;
     }
 
-    /* ===== EXPANDED FLOWER SECTION ===== */
     .flower-row {
       display: flex;
       flex-wrap: wrap;
@@ -367,7 +380,6 @@
       margin: 1.5rem 0;
     }
 
-    /* Make flower buttons a bit more fancy */
     .flower-row .btn {
       min-width: 110px;
       background: rgba(255, 255, 255, 0.9);
@@ -382,7 +394,6 @@
       transform: translateY(-3px);
     }
 
-    /* Message area styling */
     #flowerMessage {
       font-size: 1.2rem;
       background: white;
@@ -395,6 +406,88 @@
       display: flex;
       align-items: center;
       justify-content: center;
+    }
+
+    /* New sections styling */
+    .playlist-item, .dream-item, .bucket-item, .quiz-item {
+      background: rgba(255, 255, 255, 0.7);
+      border-radius: 40px;
+      padding: 1.2rem 1.8rem;
+      margin: 1rem 0;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      border: 1px solid white;
+    }
+
+    .playlist-item i, .dream-item i, .bucket-item i {
+      font-size: 2rem;
+      color: #b34e7a;
+    }
+
+    .quiz-btn {
+      background: #f2a0bd;
+      border: none;
+      color: white;
+      padding: 1rem 2rem;
+      border-radius: 60px;
+      font-size: 1.2rem;
+      cursor: pointer;
+      margin: 1rem 0;
+    }
+
+    .quiz-result {
+      background: white;
+      border-radius: 40px;
+      padding: 1rem;
+      margin: 1rem 0;
+      min-height: 3rem;
+    }
+
+    /* Easter egg popup */
+    .easter-popup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      padding: 2.5rem;
+      border-radius: 60px;
+      box-shadow: 0 30px 60px -20px #c26d93;
+      z-index: 1000;
+      text-align: center;
+      max-width: 400px;
+      border: 3px solid #ffb6d0;
+      animation: popIn 0.5s ease;
+    }
+
+    @keyframes popIn {
+      0% { transform: translate(-50%, -50%) scale(0); }
+      80% { transform: translate(-50%, -50%) scale(1.1); }
+      100% { transform: translate(-50%, -50%) scale(1); }
+    }
+
+    .easter-popup h3 {
+      font-size: 2rem;
+      color: #b34e7a;
+      margin-bottom: 1rem;
+    }
+
+    .easter-popup p {
+      font-size: 1.2rem;
+      margin: 1rem 0;
+      line-height: 1.6;
+    }
+
+    .easter-popup .close-btn {
+      background: #f2a0bd;
+      border: none;
+      color: white;
+      padding: 0.8rem 2rem;
+      border-radius: 60px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      margin-top: 1rem;
     }
   </style>
 </head>
@@ -424,7 +517,7 @@
 
   <div id="mainApp">
     <div class="glass-splendid">
-      <!-- Clickable countdown for easter egg -->
+      <!-- Clickable countdown for easter egg (now with better animation) -->
       <div class="countdown-tag" id="countdownDisplay" onclick="easterEgg()">❤️ 587 days together</div>
 
       <div id="menu" class="menu-grid">
@@ -432,9 +525,13 @@
         <div class="menu-item" onclick="showSection('portraits')"><i class="fas fa-images"></i></div>
         <div class="menu-item" onclick="showSection('reasons')"><i class="fas fa-heart"></i></div>
         <div class="menu-item" onclick="showSection('letter'); startTyping()"><i class="fas fa-envelope"></i></div>
+        <div class="menu-item" onclick="showSection('playlist')"><i class="fas fa-music"></i></div>
+        <div class="menu-item" onclick="showSection('dreams')"><i class="fas fa-moon"></i></div>
+        <div class="menu-item" onclick="showSection('bucket')"><i class="fas fa-list"></i></div>
+        <div class="menu-item" onclick="showSection('quizzes')"><i class="fas fa-question"></i></div>
       </div>
 
-      <!-- EXPANDED FLOWERS section with 8 flowers -->
+      <!-- FLOWERS section -->
       <div id="flowers" class="section">
         <h2><i class="fas fa-seedling"></i> pick a flower for me</h2>
         <div class="flower-row">
@@ -447,11 +544,7 @@
           <button class="btn" onclick="pickFlower('🌸','Lavender – calming and lovely.')">🌸 lavender</button>
           <button class="btn" onclick="pickFlower('🌿','A little green for growth together.')">🌿 fern</button>
         </div>
-        
-        <!-- Message that updates with flower description -->
         <p id="flowerMessage">🌸 Cherry blossom – delicate and sweet.</p>
-        
-        <!-- BEAR AVATAR holding the picked flower -->
         <div class="avatar-zone">
           <span class="bear">
             🧸
@@ -462,7 +555,7 @@
         <button class="btn-outline back-btn" onclick="back()"><i class="fas fa-arrow-left"></i> back</button>
       </div>
 
-      <!-- PORTRAITS section with VERTICAL/PORTRAIT orientation -->
+      <!-- PORTRAITS section -->
       <div id="portraits" class="section">
         <h2><i class="fas fa-camera"></i> Your pics</h2>
         <div class="gallery">
@@ -504,9 +597,60 @@
         <button class="btn-outline back-btn" onclick="back()"><i class="fas fa-arrow-left"></i> back</button>
       </div>
 
+      <!-- NEW: PLAYLIST section -->
+      <div id="playlist" class="section">
+        <h2><i class="fas fa-music"></i> our playlist</h2>
+        <div class="playlist-item"><i class="fas fa-play"></i> "Perfect" - Ed Sheeran</div>
+        <div class="playlist-item"><i class="fas fa-play"></i> "Lover" - Taylor Swift</div>
+        <div class="playlist-item"><i class="fas fa-play"></i> "Can't Help Falling in Love" - Elvis</div>
+        <div class="playlist-item"><i class="fas fa-play"></i> "Thinking Out Loud" - Ed Sheeran</div>
+        <div class="playlist-item"><i class="fas fa-play"></i> "All of Me" - John Legend</div>
+        <button class="btn-outline back-btn" onclick="back()"><i class="fas fa-arrow-left"></i> back</button>
+      </div>
+
+      <!-- NEW: DREAMS section -->
+      <div id="dreams" class="section">
+        <h2><i class="fas fa-moon"></i> dreams together</h2>
+        <div class="dream-item"><i class="fas fa-house"></i> Our dream home by the sea</div>
+        <div class="dream-item"><i class="fas fa-plane"></i> Travel to Japan together</div>
+        <div class="dream-item"><i class="fas fa-dog"></i> Adopt a puppy</div>
+        <div class="dream-item"><i class="fas fa-tree"></i> Build a garden</div>
+        <div class="dream-item"><i class="fas fa-cake"></i> Grow old together</div>
+        <button class="btn-outline back-btn" onclick="back()"><i class="fas fa-arrow-left"></i> back</button>
+      </div>
+
+      <!-- NEW: BUCKET LIST section -->
+      <div id="bucket" class="section">
+        <h2><i class="fas fa-list"></i> our bucket list</h2>
+        <div class="bucket-item"><i class="fas fa-check-circle"></i> Watch sunset in Santorini</div>
+        <div class="bucket-item"><i class="fas fa-check-circle"></i> Learn to cook together</div>
+        <div class="bucket-item"><i class="fas fa-check-circle"></i> Go to a music festival</div>
+        <div class="bucket-item"><i class="fas fa-check-circle"></i> See the Northern Lights</div>
+        <div class="bucket-item"><i class="fas fa-check-circle"></i> Write love letters to each other</div>
+        <button class="btn-outline back-btn" onclick="back()"><i class="fas fa-arrow-left"></i> back</button>
+      </div>
+
+      <!-- NEW: QUIZZES section -->
+      <div id="quizzes" class="section">
+        <h2><i class="fas fa-question"></i> how well do you know me?</h2>
+        <p>What's my favorite color?</p>
+        <button class="quiz-btn" onclick="checkQuiz('pink')">Pink</button>
+        <button class="quiz-btn" onclick="checkQuiz('blue')">Blue</button>
+        <button class="quiz-btn" onclick="checkQuiz('purple')">Purple</button>
+        <div id="quizResult" class="quiz-result">💭 Click an answer...</div>
+        <button class="btn-outline back-btn" onclick="back()"><i class="fas fa-arrow-left"></i> back</button>
+      </div>
+
       <hr>
       <div style="text-align:center; opacity:0.6;">587 days and always</div>
     </div>
+  </div>
+
+  <!-- Easter egg popup (hidden by default) -->
+  <div id="easterPopup" class="easter-popup" style="display: none;">
+    <h3>💝 secret message 💝</h3>
+    <p id="easterMessage"></p>
+    <button class="close-btn" onclick="closeEasterPopup()">close</button>
   </div>
 
   <script>
@@ -562,7 +706,6 @@
         document.getElementById('menu').style.display = 'flex';
       };
 
-      // Enhanced flower picker with 8 flowers and matching backgrounds
       window.pickFlower = function(flower, msg) {
         document.getElementById('bearHeldFlower').innerText = flower;
         document.getElementById('avatarFlowerMsg').innerText = msg;
@@ -625,7 +768,27 @@ Your Valentine 💘`;
         else m.pause();
       };
 
+      // BETTER EASTER EGG - shows a popup with secret message
       window.easterEgg = function() {
+        // Add animation to countdown
+        const countdown = document.getElementById('countdownDisplay');
+        countdown.classList.add('easter-egg-active');
+        
+        // Create special message based on name
+        const name = valName || 'love';
+        const messages = [
+          `💝 ${name}, these 587 days have been magic. Here's to forever! 💝`,
+          `✨ 587 days of loving you, and it only gets better. ✨`,
+          `🌟 You're my favorite person, today and always. Happy 587! 🌟`,
+          `💖 Every day with you is a gift. Thank you for 587 beautiful days. 💖`
+        ];
+        const randomMsg = messages[Math.floor(Math.random() * messages.length)];
+        
+        // Show popup
+        document.getElementById('easterMessage').innerText = randomMsg;
+        document.getElementById('easterPopup').style.display = 'block';
+        
+        // Extra confetti
         for (let i = 0; i < 60; i++) {
           const c = document.createElement('div');
           c.className = 'floaty';
@@ -637,7 +800,25 @@ Your Valentine 💘`;
           floatContainer.appendChild(c);
           setTimeout(() => c.remove(), 3000);
         }
-        alert('💝 587 days and I love you more every single one! 💝');
+        
+        // Remove animation after 3 seconds
+        setTimeout(() => {
+          countdown.classList.remove('easter-egg-active');
+        }, 3000);
+      };
+
+      window.closeEasterPopup = function() {
+        document.getElementById('easterPopup').style.display = 'none';
+      };
+
+      // Quiz function
+      window.checkQuiz = function(answer) {
+        const result = document.getElementById('quizResult');
+        if (answer === 'pink') {
+          result.innerHTML = '💖 Correct! You know me so well! 💖';
+        } else {
+          result.innerHTML = '💔 Not quite... but I still love you! 💔';
+        }
       };
 
       document.addEventListener('mousemove', (e) => {
@@ -667,7 +848,6 @@ Your Valentine 💘`;
         }
       };
 
-      // Initialize with cherry blossom
       window.pickFlower('🌸', 'Cherry blossom – delicate and sweet.');
     })();
   </script>
