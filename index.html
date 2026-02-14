@@ -336,22 +336,6 @@
       100% { background: #bae1ff; }
     }
 
-    .music-fab {
-      position: fixed;
-      bottom: 25px;
-      right: 25px;
-      background: #ffffffec;
-      backdrop-filter: blur(10px);
-      border-radius: 60px;
-      padding: 0.9rem 2rem;
-      font-size: 1.3rem;
-      box-shadow: 0 12px 24px -14px #c26d93;
-      border: 1px solid white;
-      z-index: 99;
-      cursor: pointer;
-      color: #9f4668;
-    }
-
     .sparkle {
       position: fixed;
       pointer-events: none;
@@ -499,17 +483,59 @@
       50% { transform: scale(1.1); background: #d4f1f9; }
       100% { transform: scale(1); }
     }
+
+    /* Vault styling */
+    .vault-container {
+      text-align: center;
+      padding: 1rem;
+    }
+
+    .vault-locked, .vault-unlocked {
+      background: rgba(255, 255, 255, 0.8);
+      border-radius: 60px;
+      padding: 2rem;
+      margin: 1.5rem 0;
+    }
+
+    .vault-input {
+      padding: 1rem;
+      font-size: 1.2rem;
+      border-radius: 40px;
+      border: 2px solid #ffb6d0;
+      width: 200px;
+      text-align: center;
+      margin: 1rem;
+    }
+
+    .vault-hint {
+      font-size: 1.3rem;
+      color: #b34e7a;
+      margin: 1rem 0;
+      font-weight: 600;
+    }
+
+    .vault-gift {
+      font-size: 4rem;
+      margin: 1rem 0;
+    }
+
+    .vault-message {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #b34e7a;
+      text-align: center;
+      margin: 1.5rem 0;
+      line-height: 1.4;
+    }
+
+    .flowers-bouquet {
+      font-size: 5rem;
+      line-height: 1.4;
+    }
   </style>
 </head>
 <body>
   <div id="floatContainer" style="position:fixed; inset:0; pointer-events:none;"></div>
-
-  <div class="music-fab" onclick="toggleMusic()">
-    <i class="fas fa-music"></i>  melody
-  </div>
-  <audio id="bgMusic" loop>
-    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3" type="audio/mpeg">
-  </audio>
 
   <div class="modal-overlay" id="promptModal">
     <div class="modal-inner">
@@ -538,6 +564,7 @@
         <div class="menu-item" onclick="showSection('playlist')"><i class="fas fa-music"></i></div>
         <div class="menu-item" onclick="showSection('dreams')"><i class="fas fa-moon"></i></div>
         <div class="menu-item" onclick="showSection('quizzes')"><i class="fas fa-question"></i></div>
+        <div class="menu-item" onclick="showSection('vault')"><i class="fas fa-lock"></i></div>
       </div>
 
       <!-- FLOWERS section -->
@@ -628,7 +655,7 @@
         <button class="btn-outline back-btn" onclick="back()"><i class="fas fa-arrow-left"></i> back</button>
       </div>
 
-      <!-- QUIZZES section - with prize for correct answer (blue) -->
+      <!-- QUIZZES section -->
       <div id="quizzes" class="section">
         <h2><i class="fas fa-question"></i> how well do you know me?</h2>
         <p>What's my favorite color?</p>
@@ -637,6 +664,41 @@
         <button class="quiz-btn" onclick="checkQuiz('purple')">Purple</button>
         <div id="quizResult" class="quiz-result">💭 Click an answer...</div>
         <div id="prizeMessage" style="text-align:center; font-size:1.2rem; margin-top:1rem;"></div>
+        <button class="btn-outline back-btn" onclick="back()"><i class="fas fa-arrow-left"></i> back</button>
+      </div>
+
+      <!-- VAULT section -->
+      <div id="vault" class="section">
+        <h2><i class="fas fa-lock"></i> secret vault</h2>
+        <div class="vault-container">
+          <div id="vaultLocked" class="vault-locked">
+            <i class="fas fa-lock" style="font-size: 4rem; color: #b34e7a;"></i>
+            <p class="vault-hint">🔐 this vault is locked 🔐</p>
+            <p style="font-size: 1.3rem; margin: 1rem 0;">"go back to me to get the code"</p>
+            <p style="font-size: 1.1rem; margin-bottom: 1rem;">enter the secret code:</p>
+            <input type="text" id="vaultCode" class="vault-input" placeholder="enter code" maxlength="4">
+            <button class="btn" onclick="checkVaultCode()"><i class="fas fa-key"></i> unlock</button>
+            <p id="vaultMessage" style="margin-top: 1rem; color: #b34e7a;"></p>
+          </div>
+          
+          <div id="vaultUnlocked" class="vault-unlocked" style="display: none;">
+            <i class="fas fa-lock-open" style="font-size: 4rem; color: #b34e7a;"></i>
+            <div class="flowers-bouquet">
+              🌹 🌻 🌷 🌸 🌼 🌺
+            </div>
+            <div class="vault-gift">
+              🍫 🍬 🍭 🍰
+            </div>
+            <div class="vault-message">
+              💝 HAPPY VALENTINE'S DAY! 💝<br>
+              <span style="font-size: 1.8rem;">I love you more than all the flowers and chocolates in the world!</span>
+            </div>
+            <div class="flowers-bouquet">
+              💖 💘 💗 💓 💕 💞
+            </div>
+            <button class="btn-outline back-btn" onclick="back()"><i class="fas fa-arrow-left"></i> back</button>
+          </div>
+        </div>
         <button class="btn-outline back-btn" onclick="back()"><i class="fas fa-arrow-left"></i> back</button>
       </div>
 
@@ -761,12 +823,6 @@ Your Valentine 💘`;
         type();
       };
 
-      window.toggleMusic = function() {
-        const m = document.getElementById('bgMusic');
-        if (m.paused) m.play();
-        else m.pause();
-      };
-
       // EASTER EGG - shows a popup with secret message
       window.easterEgg = function() {
         const countdown = document.getElementById('countdownDisplay');
@@ -812,13 +868,10 @@ Your Valentine 💘`;
         
         if (answer === 'blue') {
           result.innerHTML = '💙 Correct! You know me so well! 💙';
-          // Prize: confetti + animation + special message
           prizeDiv.innerHTML = '🎁 YOU WIN A SPECIAL PRIZE! 🎁<br>💙 A lifetime of love and blue skies! 💙';
           
-          // Add animation to result
           result.classList.add('prize-active');
           
-          // Extra confetti for prize
           for (let i = 0; i < 30; i++) {
             const c = document.createElement('div');
             c.className = 'floaty';
@@ -831,13 +884,39 @@ Your Valentine 💘`;
             setTimeout(() => c.remove(), 3000);
           }
           
-          // Remove animation after 3 seconds
           setTimeout(() => {
             result.classList.remove('prize-active');
           }, 3000);
         } else {
           result.innerHTML = '💔 Not quite... but I still love you! 💔';
-          prizeDiv.innerHTML = ''; // Clear prize message
+          prizeDiv.innerHTML = '';
+        }
+      };
+
+      // VAULT function - code is "587" (you can change this)
+      window.checkVaultCode = function() {
+        const code = document.getElementById('vaultCode').value;
+        const vaultMessage = document.getElementById('vaultMessage');
+        
+        // The secret code is "587" - you can change this to any code you want
+        if (code === '587') {
+          document.getElementById('vaultLocked').style.display = 'none';
+          document.getElementById('vaultUnlocked').style.display = 'block';
+          
+          // Extra confetti for unlocking
+          for (let i = 0; i < 50; i++) {
+            const c = document.createElement('div');
+            c.className = 'floaty';
+            c.innerText = ['🌹','🌻','🌷','🌸','🍫','💝'][Math.floor(Math.random()*6)];
+            c.style.left = Math.random() * 100 + '%';
+            c.style.fontSize = (Math.random() * 34 + 18) + 'px';
+            c.style.animation = 'levitate 3s ease-out forwards';
+            c.style.opacity = 0.9;
+            floatContainer.appendChild(c);
+            setTimeout(() => c.remove(), 3000);
+          }
+        } else {
+          vaultMessage.innerHTML = '❌ wrong code, try again! ❌';
         }
       };
 
