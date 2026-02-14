@@ -626,7 +626,7 @@
         <button class="btn-outline back-btn" onclick="back()"><i class="fas fa-arrow-left"></i> back</button>
       </div>
 
-      <!-- LETTER section -->
+      <!-- LETTER section (fixed - no more gibberish) -->
       <div id="letter" class="section">
         <h2><i class="fas fa-envelope"></i> a letter for you</h2>
         <div id="typedLetter" class="letter-box"></div>
@@ -803,9 +803,15 @@ And I still choose you, today and always.
 Forever yours,
 Your Valentine 💘`;
 
+      // FIXED: Letter now types only once, no more gibberish
       window.startTyping = function() {
         const el = document.getElementById('typedLetter');
-        el.innerHTML = '';
+        
+        // Check if letter already has content - if it does, don't type again
+        if (el.innerHTML.trim() !== '') {
+          return; // Letter already exists, don't retype
+        }
+        
         let i = 0;
         function type() {
           if (i < letterContent.length) {
