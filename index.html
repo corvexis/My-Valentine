@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Valentine 💖</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:'Poppins',sans-serif;
+  background:linear-gradient(135deg,#ffd6ec,#ff9ecf);
+  color:white;
+  text-align:center;
+  overflow-x:hidden;
+}
+
+/* Floating hearts & petals */
+.floating{
+  position:fixed;
+  font-size:18px;
+  animation:float 14s linear infinite;
+  opacity:.5;
+  z-index:0;
+}
+@keyframes float{
+  0%{transform:translateY(100vh) rotate(0deg)}
+  100%{transform:translateY(-10vh) rotate(360deg);opacity:0}
+}
+
+/* Modal prompt */
+.modal{
+  position:fixed;
+  inset:0;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  backdrop-filter:blur(8px);
+  background:rgba(255,182,193,.3);
+  z-index:10;
+}
+.modal-box{
+  background:#fff0f6;
+  padding:40px;
+  border-radius:25px;
+  width:90%;
+  max-width:420px;
+  color:#d63384;
+  box-shadow:0 10px 40px rgba(0,0,0,.2);
+  position:relative;
+}
+
+/* Buttons */
+button{
+  background:#ff69b4;
+  border:none;
+  padding:12px 22px;
+  margin:10px;
+  border-radius:30px;
+  color:white;
+  cursor:pointer;
+  transition:.3s;
+}
+button:hover{background:#ff1493;transform:scale(1.08);}
+#noBtn{position:relative;transition:.2s}
+
+/* Menu boxes */
+.menu{
+  display:none;
+  padding:60px 20px;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:25px;
+}
+.box{
+  width:140px;
+  height:140px;
+  background:rgba(255,255,255,.25);
+  border-radius:25px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:45px;
+  cursor:pointer;
+  transition:.4s;
+}
+.box:hover{background:rgba(255,255,255,.45);transform:scale(1.1);}
+
+/* Sections */
+.section{display:none;padding:60px 20px;max-width:900px;margin:auto;}
+
+/* Gallery */
+.gallery{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:15px;
+}
+.gallery img{
+  width:100%;
+  height:230px;
+  object-fit:cover;
+  border-radius:15px;
+  transition:.3s;
+}
+.gallery img:hover{transform:scale(1.05);}
+.gallery div{position:relative;}
+.caption{position:absolute;bottom:5px;left:50%;transform:translateX(-50%);background:rgba(255,182,193,0.7);padding:4px 8px;border-radius:8px;font-size:12px;}
+
+/* Love hearts */
+.love-heart{font-size:28px;margin:8px;cursor:pointer;transition:.3s;}
+.love-heart:hover{transform:scale(1.3);}
+
+/* Avatar */
+.avatar{font-size:90px;margin-top:30px;position:relative;}
+.avatar-flower{font-size:50px;position:absolute;left:50%;transform:translateX(-50%);bottom:10px;}
+
+/* Typing letter */
+#typedLetter{max-width:600px;margin:auto;line-height:1.6;min-height:150px;}
+
+/* Music toggle */
+.music-toggle{position:fixed;top:15px;right:15px;background:rgba(255,255,255,.3);padding:8px 14px;border-radius:30px;cursor:pointer;}
+
+/* Sparkle cursor */
+.sparkle{position:fixed;pointer-events:none;font-size:12px;animation:sparkleFade .8s forwards;}
+@keyframes sparkleFade{to{opacity:0;transform:translateY(-10px);}}
+
+/* Countdown */
+#countdown{font-size:18px;margin:10px 0;font-weight:600;}
+
+@media(max-width:500px){.box{width:110px;height:110px;font-size:35px;}}
+</style>
+</head>
+<body>
+
+<div class="music-toggle" onclick="toggleMusic()">🎵 Music</div>
+<audio id="bgMusic" loop>
+  <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+</audio>
+
+<!-- Prompt -->
+<div class="modal" id="prompt">
+  <div class="modal-box">
+    <h2>My Love 💕</h2>
+    <p id="namePrompt">You make my world softer and brighter every day...</p>
+    <h3>Will you be my Valentine? 💖</h3>
+    <button onclick="enterSite()">Yes 💘</button>
+    <button id="noBtn">No 😢</button>
+    <p id="noMessage"></p>
+  </div>
+</div>
+
+<!-- Menu -->
+<div id="menu" class="menu">
+  <div class="box" onclick="showSection('flowers')">🌸</div>
+  <div class="box" onclick="showSection('portraits')">🖼️</div>
+  <div class="box" onclick="showSection('reasons')">❤️</div>
+  <div class="box" onclick="showSection('letter'); startTyping()">💌</div>
+</div>
+
+<!-- Countdown Timer -->
+<div id="countdown"></div>
+
+<!-- Flowers Section -->
+<div id="flowers" class="section">
+  <h2>Pick Your Flower 🌸</h2>
+  <button onclick="pickFlower('🌹','My love grows more beautiful every day.')">🌹</button>
+  <button onclick="pickFlower('🌻','You are my sunshine always.')">🌻</button>
+  <button onclick="pickFlower('🌷','Elegant and beautiful like you.')">🌷</button>
+
+  <p id="flowerMessage"></p>
+  <div class="avatar">
+    🧍
+    <div id="avatarFlower" class="avatar-flower"></div>
+  </div>
+  <button onclick="back()">Back</button>
+</div>
+
+<!-- Portraits Section -->
+<div id="portraits" class="section">
+  <h2>Our Memories 🖼️</h2>
+  <div class="gallery">
+    <div><img src="https://i.imgur.com/abc123.jpg"><div class="caption">Beach day 🌊</div></div>
+    <div><img src="https://i.imgur.com/def456.jpg"><div class="caption">Birthday 🎂</div></div>
+    <div><img src="https://i.imgur.com/ghi789.jpg"><div class="caption">Our trip ✈️</div></div>
+  </div>
+  <button onclick="back()">Back</button>
+</div>
+
+<!-- Love Reasons -->
+<div id="reasons" class="section">
+  <h2>Reasons I Love You ❤️</h2>
+  <div>
+    <span class="love-heart" onclick="showReason('Your smile 😊')">❤️</span>
+    <span class="love-heart" onclick="showReason('Your kindness 💛')">❤️</span>
+    <span class="love-heart" onclick="showReason('How you care 🥰')">❤️</span>
+  </div>
+  <p id="reasonText"></p>
+  <button onclick="back()">Back</button>
+</div>
+
+<!-- Letter -->
+<div id="letter" class="section">
+  <h2>A Letter For You 💌</h2>
+  <div id="typedLetter"></div>
+  <button onclick="back()">Back</button>
+</div>
+
+<script>
+/* Floating hearts & petals */
+function createFloating(){
+  const el=document.createElement("div");
+  el.className="floating";
+  el.innerHTML=Math.random()>.5?"💖":"🌸";
+  el.style.left=Math.random()*100+"vw";
+  el.style.fontSize=(Math.random()*20+14)+"px";
+  document.body.appendChild(el);
+  setTimeout(()=>el.remove(),14000);
+}
+setInterval(createFloating,500);
+
+/* Enter site & name prompt */
+let namePrompt = prompt("What's your name, my love? 💕");
+if(!namePrompt) namePrompt="My Valentine";
+document.getElementById("namePrompt").innerText=`Hello, ${namePrompt}! You make my world brighter...`;
+
+function enterSite(){
+  document.getElementById("prompt").style.display="none";
+  document.getElementById("menu").style.display="flex";
+  confetti();
+}
+
+/* Runaway shrinking No */
+let scale=1;
+const noBtn=document.getElementById("noBtn");
+noBtn.addEventListener("mouseover",moveNo);
+noBtn.addEventListener("touchstart",moveNo);
+function moveNo(){
+  scale-=0.1;
+  if(scale<0.4) scale=0.4;
+  noBtn.style.transform=`scale(${scale})`;
+  noBtn.style.position="absolute";
+  noBtn.style.left=Math.random()*200+"px";
+  noBtn.style.top=Math.random()*150+"px";
+  document.getElementById("noMessage").innerText="You can't escape loving me 😌💖";
+}
+
+/* Sections */
+function showSection(id){
+  document.getElementById("menu").style.display="none";
+  document.querySelectorAll(".section").forEach(s=>s.style.display="none");
+  document.getElementById(id).style.display="block";
+}
+function back(){
+  document.querySelectorAll(".section").forEach(s=>s.style.display="none");
+  document.getElementById("menu").style.display="flex";
+}
+
+/* Flower picker + background change */
+function pickFlower(f,msg){
+  document.getElementById("flowerMessage").innerText=msg;
+  document.getElementById("avatarFlower").innerText=f;
+  let color;
+  if(f=="🌹") color="linear-gradient(135deg,#ffb3c6,#ff4d6d)";
+  if(f=="🌻") color="linear-gradient(135deg,#fff3b3,#ffd11a)";
+  if(f=="🌷") color="linear-gradient(135deg,#ffdaeb,#ff80bf)";
+  document.body.style.background=color;
+}
+
+/* Love reasons */
+function showReason(text){document.getElementById("reasonText").innerText=text;}
+
+/* Typing letter */
+const letterText=`My love,
+
+From the moment you came into my life,
+everything felt softer, warmer, brighter.
+
+You are my peace, my happiness,
+and the most beautiful part of my world.
+
+I choose you today and always.
+
+Happy Valentine's Day ❤️`;
+function startTyping(){
+  const el=document.getElementById("typedLetter");
+  el.innerHTML="";
+  let i=0;
+  function type(){
+    if(i<letterText.length){
+      el.innerHTML+=letterText.charAt(i);
+      i++;
+      setTimeout(type,35);
+    }
+  }
+  type();
+}
+
+/* Music */
+function toggleMusic(){
+  const m=document.getElementById("bgMusic");
+  if(m.paused)m.play();
+  else m.pause();
+}
+
+/* Sparkle cursor */
+document.addEventListener("mousemove",e=>{
+  const s=document.createElement("div");
+  s.className="sparkle";
+  s.innerHTML="✨";
+  s.style.left=e.clientX+"px";
+  s.style.top=e.clientY+"px";
+  document.body.appendChild(s);
+  setTimeout(()=>s.remove(),800);
+});
+
+/* Countdown Timer */
+const relationshipStart=new Date("2024-05-01"); // Change to your start date
+function updateCountdown(){
+  const today=new Date();
+  const diff=Math.floor((today-relationshipStart)/(1000*60*60*24));
+  document.getElementById("countdown").innerText=`Days together: ${diff} ❤️`;
+}
+setInterval(updateCountdown,1000);
+updateCountdown();
+
+/* Confetti on Yes */
+function confetti(){
+  for(let i=0;i<100;i++){
+    const c=document.createElement("div");
+    c.className="floating";
+    c.innerHTML=Math.random()>.5?"💖":"🌸";
+    c.style.left=Math.random()*100+"vw";
+    c.style.fontSize=(Math.random()*25+10)+"px";
+    c.style.transition="all 2s ease-out";
+    document.body.appendChild(c);
+    setTimeout(()=>c.remove(),3000);
+  }
+}
+</script>
+
+</body>
+</html>
